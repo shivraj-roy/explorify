@@ -12,12 +12,12 @@
    --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-   /* :root {
+/* @media (prefers-color-scheme: dark) {
+   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
-  } */
-}
+  }
+} */
 
 body {
    background: #0d0d0d;
@@ -29,4 +29,20 @@ body {
    --color-fade: #b7ab98;
    --color-dark: #0d0d0d;
    --color-highlight: #eb5939;
+}
+
+@layer utilities {
+   .nav-hover {
+      @apply relative inline-block;
+   }
+
+   .nav-hover::after {
+      content: "";
+      @apply block absolute bottom-0 left-0 w-full h-[3px] bg-highlight scale-x-0 transition-transform duration-250 ease-in-out;
+      transform-origin: left;
+   }
+
+   .nav-hover:hover::after {
+      @apply scale-x-100;
+   }
 }
