@@ -36,7 +36,13 @@ const NavBar = () => {
                <SignedOut>
                   <div className="w-10 h-10 items-center justify-center flex">
                      <Link href="/sign-in">
-                        <HiOutlineUserCircle className="w-8 h-8 text-highlight" />
+                        <HiOutlineUserCircle
+                           className={`w-8 h-8 ${
+                              pathname === "/sign-in" || pathname === "/sign-up"
+                                 ? "text-highlight/90"
+                                 : ""
+                           }`}
+                        />
                      </Link>
                   </div>
                </SignedOut>

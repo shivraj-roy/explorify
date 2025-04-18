@@ -3,11 +3,16 @@
 import * as React from "react";
 import { useSignIn } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
+import { FaSignInAlt } from "react-icons/fa";
+import Button from "@/UI/Button";
+import Link from "next/link";
+import Box from "@/UI/Box";
 
 export default function SignInForm() {
    const { isLoaded, signIn, setActive } = useSignIn();
    const [email, setEmail] = React.useState("");
    const [password, setPassword] = React.useState("");
+   const [passwordError, setPasswordError] = React.useState(""); // State for password error
    const router = useRouter();
 
    // Handle the submission of the sign-in form
@@ -16,57 +21,69 @@ export default function SignInForm() {
 
       if (!isLoaded) return;
 
-      // Start the sign-in process using the email and password provided
       try {
          const signInAttempt = await signIn.create({
             identifier: email,
             password,
          });
 
-         // If sign-in process is complete, set the created session as active
-         // and redirect the user
          if (signInAttempt.status === "complete") {
             await setActive({ session: signInAttempt.createdSessionId });
             router.push("/");
          } else {
-            // If the status is not complete, check why. User may need to
-            // complete further steps.
-            console.error(JSON.stringify(signInAttempt, null, 2));
+            setPasswordError("Please enter the correct password."); // Set error message
          }
       } catch (err) {
-         // See https://clerk.com/docs/custom-flows/error-handling
-         // for more info on error handling
+         setPasswordError("Please enter the correct password."); // Set error message
          console.error(JSON.stringify(err, null, 2));
       }
    };
 
-   // Display a form to capture the user's email and password
    return (
-      <>
-         <h1>Sign in</h1>
-         <form onSubmit={(e) => handleSubmit(e)}>
+      <Box>
+         <form onSubmit={(e) => handleSubmit(e)} className="space-y-4">
             <div>
-               <label htmlFor="email">Enter email address</label>
                <input
                   onChange={(e) => setEmail(e.target.value)}
                   id="email"
                   name="email"
                   type="email"
                   value={email}
+                  placeholder="email"
+                  className="input-focus"
                />
             </div>
             <div>
-               <label htmlFor="password">Enter password</label>
                <input
                   onChange={(e) => setPassword(e.target.value)}
                   id="password"
                   name="password"
                   type="password"
                   value={password}
+                  placeholder="password"
+                  className="input-focus"
                />
+               {passwordError && (
+                  <p className="text-red-500 text-sm mt-1">{passwordError}</p>
+               )}
             </div>
-            <button type="submit">Sign in</button>
+            <Button
+               btnType="submit"
+               btnClass="btn-primary"
+               icon={<FaSignInAlt />}
+               text="Sign In"
+            />
          </form>
-      </>
+
+         <p className="text-center text-sm text-light-2 mt-4">
+            Don&apos;t have an account?{" "}
+            <Link
+               href="/sign-up"
+               className="text-highlight/85 hover:underline hover:text-highlight"
+            >
+               Sign up
+            </Link>
+         </p>
+      </Box>
    );
 }

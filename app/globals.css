@@ -45,4 +45,16 @@ body {
    .nav-hover:hover::after {
       @apply scale-x-100;
    }
+
+   .backdrop {
+      @apply rounded-3xl bg-neutral-600/30 backdrop-blur-xl border-fade/30;
+   }
+
+   .btn-primary {
+      @apply capitalize w-full flex items-center justify-center gap-2 font-bold bg-fade/60 text-white hover:text-dark py-2 rounded-md hover:bg-highlight/80 cursor-pointer;
+   }
+
+   .input-focus {
+      @apply w-full mt-1 p-2 bg-dark/40 rounded-md focus:outline-1;
+   }
 }
