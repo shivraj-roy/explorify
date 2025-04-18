@@ -10,8 +10,8 @@ const NavBar = () => {
 
    return (
       <>
-         <nav className="flex items-center justify-center fixed bottom-12 md:bottom-8 left-1/2 transform -translate-x-1/2">
-            <div className="flex justify-center items-center w-[375] md:w-[500px] p-4 gap-20 h-16 rounded-3xl bg-neutral-600/30 backdrop-blur-xl border-fade/30">
+         <nav className="flex items-center justify-center fixed bottom-12 md:bottom-8 left-1/2 transform -translate-x-1/2 z-10">
+            <div className="flex justify-center items-center w-[375] md:w-[500px] p-4 gap-20 h-16 rounded-3xl bg-dark/30 backdrop-blur-xl border-[0.1px] border-white/50 shadow-md">
                {/* Home and Explore links with active state */}
                <Link href="/" className="nav-hover">
                   <h1
