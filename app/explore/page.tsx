@@ -1,5 +1,6 @@
 "use client";
 
+import UnExplore from "@/components/UnExplore";
 import { useAuth } from "@clerk/nextjs";
 
 const Explore = () => {
@@ -7,10 +8,14 @@ const Explore = () => {
 
    return (
       <>
-         <div className="text-highlight">
-            {isSignedIn
-               ? "Welcome to the Explore page!"
-               : "Please sign in to view this content."}
+         <div className="">
+            {isSignedIn ? (
+               "Welcome to the Explore page!"
+            ) : (
+               <div>
+                  <UnExplore />
+               </div>
+            )}
          </div>
       </>
    );
