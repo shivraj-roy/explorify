@@ -1,7 +1,9 @@
 "use client";
 
-import UnExplore from "@/components/UnExplore";
 import { useAuth } from "@clerk/nextjs";
+
+import ExplorePage from "@/components/ExplorePage";
+import UnExplore from "@/components/UnExplore";
 
 const Explore = () => {
    const { isSignedIn } = useAuth();
@@ -10,7 +12,9 @@ const Explore = () => {
       <>
          <div className="">
             {isSignedIn ? (
-               "Welcome to the Explore page!"
+               <>
+                  <ExplorePage />
+               </>
             ) : (
                <div>
                   <UnExplore />

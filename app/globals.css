@@ -1,19 +1,11 @@
 @import url("https://fonts.googleapis.com/css2?family=Major+Mono+Display&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap");
 @import "tailwindcss";
 
 @theme inline {
-   /* --color-background: var(--background);
-  --color-foreground: var(--foreground); */
    --font-sans: var(--font-geist-sans);
    --font-mono: var(--font-geist-mono);
 }
-
-/* @media (prefers-color-scheme: dark) {
-   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-} */
 
 @theme {
    --color-fade: #b7ab98;
@@ -80,7 +72,7 @@
    body {
       background: #0d0d0d;
       color: #b7ab98;
-      font-family: Arial, Helvetica, sans-serif;
+      font-family: "Space Mono", Arial, Helvetica, sans-serif;
       overflow-x: hidden;
    }
 }

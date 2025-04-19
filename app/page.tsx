@@ -13,7 +13,6 @@ export default function Home() {
       const handleMouseMove = (event: MouseEvent) => {
          const { clientX: x, clientY: y } = event;
 
-         // Animate the interactive element to follow the mouse
          gsap.to(cursor, {
             x,
             y,
