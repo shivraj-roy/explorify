@@ -1,35 +1,28 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { gsap } from "gsap";
 
 export default function Home() {
    const interactiveRef = useRef<HTMLDivElement | null>(null);
 
    useEffect(() => {
-      const interBubble = interactiveRef.current;
-      if (!interBubble) return;
-
-      let curX = 0;
-      let curY = 0;
-      let tgX = 0;
-      let tgY = 0;
-
-      const move = () => {
-         curX += (tgX - curX) / 20;
-         curY += (tgY - curY) / 20;
-         interBubble.style.transform = `translate(${Math.round(
-            curX
-         )}px, ${Math.round(curY)}px)`;
-         requestAnimationFrame(move);
-      };
+      const cursor = interactiveRef.current;
+      if (!cursor) return;
 
       const handleMouseMove = (event: MouseEvent) => {
-         tgX = event.clientX;
-         tgY = event.clientY;
+         const { clientX: x, clientY: y } = event;
+
+         // Animate the interactive element to follow the mouse
+         gsap.to(cursor, {
+            x,
+            y,
+            duration: 3.5,
+            ease: "power2.out",
+         });
       };
 
       window.addEventListener("mousemove", handleMouseMove);
-      move();
 
       return () => {
          window.removeEventListener("mousemove", handleMouseMove);
