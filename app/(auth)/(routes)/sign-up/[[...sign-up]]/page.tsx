@@ -1,25 +1,32 @@
 "use client";
 
-import * as React from "react";
+import { useState } from "react";
+import Link from "next/link";
 import { useSignUp } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
-import Button from "@/UI/Button";
 import { HiUserAdd } from "react-icons/hi";
-import Link from "next/link";
 import { RiUser4Line } from "react-icons/ri";
 import { SiFusionauth } from "react-icons/si";
 import { FaCheck } from "react-icons/fa";
+import { BsEmojiSmileFill, BsEmojiSunglassesFill } from "react-icons/bs";
+
 import Box from "@/UI/Box";
+import Button from "@/UI/Button";
 
 export default function SignUpForm() {
    const { isLoaded, signUp, setActive } = useSignUp();
-   const [emailAddress, setEmailAddress] = React.useState("");
-   const [password, setPassword] = React.useState("");
-   const [passwordError, setPasswordError] = React.useState(""); // State for password validation error
-   const [verifying, setVerifying] = React.useState(false);
-   const [code, setCode] = React.useState("");
-   const [codeError, setCodeError] = React.useState(""); // State for code validation error
+   const [emailAddress, setEmailAddress] = useState("");
+   const [password, setPassword] = useState("");
+   const [passwordError, setPasswordError] = useState("");
+   const [showPassword, setShowPassword] = useState(false);
+   const [verifying, setVerifying] = useState(false);
+   const [code, setCode] = useState("");
+   const [codeError, setCodeError] = useState("");
    const router = useRouter();
+
+   const handleShowPassword = () => {
+      setShowPassword((prev) => !prev);
+   };
 
    const validatePassword = (password: string) => {
       if (password.length < 8) {
@@ -43,8 +50,13 @@ export default function SignUpForm() {
    const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       const newPassword = e.target.value;
       setPassword(newPassword);
-      const error = validatePassword(newPassword);
-      setPasswordError(error);
+
+      if (newPassword.length >= 3) {
+         const error = validatePassword(newPassword);
+         setPasswordError(error);
+      } else {
+         setPasswordError("");
+      }
    };
 
    const handleSubmit = async (e: React.FormEvent) => {
@@ -91,7 +103,7 @@ export default function SignUpForm() {
             console.error(JSON.stringify(signUpAttempt, null, 2));
          }
       } catch (err) {
-         setCodeError("Please enter the correct verification code."); // Set error message
+         setCodeError("Please enter the correct verification code.");
          console.error("Error:", JSON.stringify(err, null, 2));
       }
    };
@@ -150,24 +162,35 @@ export default function SignUpForm() {
                   className="input-focus"
                />
             </div>
-            <div>
+            <div className="relative">
                <input
                   id="password"
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   name="password"
                   value={password}
                   placeholder="password"
                   onChange={handlePasswordChange}
                   className="input-focus"
                />
-               <p className="text-[11px] py-2 font-mono">
-                  At least 8 characters, must contain at least one uppercase
-                  letter [A-Z], number [0-9], & symbol [!@#$%^&*].
-               </p>
-               {passwordError && (
-                  <p className="text-red-500 text-sm mt-1">{passwordError}</p>
+               {showPassword ? (
+                  <BsEmojiSmileFill
+                     onClick={handleShowPassword}
+                     className="absolute top-1/2 right-3 transform -translate-y-1/2 text-highlight text-xl mt-1 cursor-pointer"
+                  />
+               ) : (
+                  <BsEmojiSunglassesFill
+                     onClick={handleShowPassword}
+                     className="absolute top-1/2 right-3 transform -translate-y-1/2 text-xl mt-1 cursor-pointer"
+                  />
                )}
             </div>
+            {passwordError && (
+               <p className="text-red-500 text-sm mt-1">{passwordError}</p>
+            )}
+            <p className="text-[11px] py-2 font-mono">
+               At least 8 characters, must contain at least one uppercase letter
+               [A-Z], number [0-9], & symbol [!@#$%^&*].
+            </p>
 
             {/* CAPTCHA Widget */}
             <div id="clerk-captcha"></div>

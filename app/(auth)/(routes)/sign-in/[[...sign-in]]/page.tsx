@@ -1,21 +1,28 @@
 "use client";
 
-import * as React from "react";
+// import * as React from "react";
+import { useState } from "react";
 import { useSignIn } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import { FaSignInAlt } from "react-icons/fa";
-import Button from "@/UI/Button";
+import { BsEmojiSmileFill, BsEmojiSunglassesFill } from "react-icons/bs";
 import Link from "next/link";
+
+import Button from "@/UI/Button";
 import Box from "@/UI/Box";
 
 export default function SignInForm() {
    const { isLoaded, signIn, setActive } = useSignIn();
-   const [email, setEmail] = React.useState("");
-   const [password, setPassword] = React.useState("");
-   const [passwordError, setPasswordError] = React.useState(""); // State for password error
+   const [email, setEmail] = useState("");
+   const [password, setPassword] = useState("");
+   const [passwordError, setPasswordError] = useState("");
+   const [showPassword, setShowPassword] = useState(false);
    const router = useRouter();
 
-   // Handle the submission of the sign-in form
+   const handleShowPassword = () => {
+      setShowPassword((prev) => !prev);
+   };
+
    const handleSubmit = async (e: React.FormEvent) => {
       e.preventDefault();
 
@@ -31,10 +38,10 @@ export default function SignInForm() {
             await setActive({ session: signInAttempt.createdSessionId });
             router.push("/");
          } else {
-            setPasswordError("Please enter the correct password."); // Set error message
+            setPasswordError("Please enter the correct password.");
          }
       } catch (err) {
-         setPasswordError("Please enter the correct password."); // Set error message
+         setPasswordError("Please enter the correct password.");
          console.error(JSON.stringify(err, null, 2));
       }
    };
@@ -53,20 +60,31 @@ export default function SignInForm() {
                   className="input-focus"
                />
             </div>
-            <div>
+            <div className="relative">
                <input
                   onChange={(e) => setPassword(e.target.value)}
                   id="password"
                   name="password"
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   value={password}
                   placeholder="password"
                   className="input-focus"
                />
-               {passwordError && (
-                  <p className="text-red-500 text-sm mt-1">{passwordError}</p>
+               {showPassword ? (
+                  <BsEmojiSmileFill
+                     onClick={handleShowPassword}
+                     className="absolute top-1/2 right-3 transform -translate-y-1/2 text-highlight text-xl mt-1 cursor-pointer"
+                  />
+               ) : (
+                  <BsEmojiSunglassesFill
+                     onClick={handleShowPassword}
+                     className="absolute top-1/2 right-3 transform -translate-y-1/2 text-xl mt-1 cursor-pointer"
+                  />
                )}
             </div>
+            {passwordError && (
+               <p className="text-red-500 text-sm mt-1">{passwordError}</p>
+            )}
             <Button
                btnType="submit"
                btnClass="btn-primary"

@@ -4,7 +4,7 @@ type ButtonPropTypes = {
    btnType?: ButtonHTMLAttributes<HTMLButtonElement>["type"]; // Type for button type (e.g., "button", "submit", "reset")
    btnClass?: string;
    icon?: ReactNode;
-   text: string;
+   text?: string;
 };
 
 const Button = ({
