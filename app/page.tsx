@@ -55,7 +55,6 @@ export default function Home() {
                <div className="g2" />
                <div className="g3" />
                <div className="g4" />
-               <div className="g5" />
                <div className="interactive" ref={interactiveRef} />
             </div>
          </div>
